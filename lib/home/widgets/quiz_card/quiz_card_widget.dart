@@ -1,9 +1,12 @@
 import 'package:DevQuiz/core/app_colors.dart';
 import 'package:DevQuiz/core/core.dart';
+import 'package:DevQuiz/shared/models/quiz_model.dart';
+import 'package:DevQuiz/shared/widgets/progress_indicator/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 
 class QuizCardWidget extends StatelessWidget {
-  const QuizCardWidget({Key? key}) : super(key: key);
+  final QuizModel model;
+  const QuizCardWidget({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +27,13 @@ class QuizCardWidget extends StatelessWidget {
           Container(
             height: 40,
             width: 40,
-            child: Image.asset(AppImages.blocks),
+            child: Image.asset(model.imagem),
           ),
           SizedBox(
             height: 20,
           ),
           Text(
-            'Gerenciamento de Estado',
+            model.title,
             style: AppTextStyles.heading15,
           ),
           SizedBox(
@@ -41,17 +44,14 @@ class QuizCardWidget extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Text(
-                  '3-10',
+                  '${model.questionAnswered.toString()} - ${model.questions.length}',
                   style: AppTextStyles.body11,
                 ),
               ),
               Expanded(
                 flex: 4,
-                child: LinearProgressIndicator(
-                  backgroundColor: AppColors.chartSecondary,
-                  value: 0.3,
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(AppColors.chartPrimary),
+                child: ProgressIndicatorWidget(
+                  value: model.questionAnswered / model.questions.length,
                 ),
               ),
             ],
