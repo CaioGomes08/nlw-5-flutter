@@ -6,57 +6,66 @@ import 'package:flutter/material.dart';
 
 class QuizCardWidget extends StatelessWidget {
   final QuizModel model;
-  const QuizCardWidget({Key? key, required this.model}) : super(key: key);
+  final VoidCallback onTap;
+
+  QuizCardWidget({
+    Key? key,
+    required this.model,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.fromBorderSide(
-          BorderSide(
-            color: AppColors.border,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          border: Border.fromBorderSide(
+            BorderSide(
+              color: AppColors.border,
+            ),
           ),
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(10),
         ),
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            child: Image.asset(model.imagem),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            model.title,
-            style: AppTextStyles.heading15,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Text(
-                  '${model.questionAnswered.toString()} - ${model.questions.length}',
-                  style: AppTextStyles.body11,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              child: Image.asset(AppImages.blocks),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              model.title,
+              style: AppTextStyles.heading15,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    '${model.questionAnswered.toString()} - ${model.questions.length}',
+                    style: AppTextStyles.body11,
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 4,
-                child: ProgressIndicatorWidget(
-                  value: model.questionAnswered / model.questions.length,
+                Expanded(
+                  flex: 4,
+                  child: ProgressIndicatorWidget(
+                    value: model.questionAnswered / model.questions.length,
+                  ),
                 ),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
